@@ -1,4 +1,4 @@
-import * as auth from 'aws-cognito-promises'
+import * as auth from 'aws-cognito-promises-refact'
 
 import { call, put, takeLatest } from 'redux-saga/effects'
 import * as actions from './actions'
@@ -52,7 +52,7 @@ function* getUser() {
 
 function* signUp(action) {
   try {
-    yield call(auth.register, action.payload.username, action.payload.password)
+    yield call(auth.register, action.payload.username, action.payload.email, action.payload.password)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -86,7 +86,29 @@ function* signOut() {
   }
 }
 
+function* confirmation(action) {
+  try {
+    const { username, code } = action.payload
+
+    yield call(auth.confirmation, username, code)
+    
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        isConfirmed: states.AUTH_SUCCESS,
+      }
+    })
+  } catch (e) {
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: { isConfirmed: states.AUTH_FAIL, error: e }
+    })
+  }
+}
+
 function* signIn(action) {
+  let user = null;
+  let session = null;
   try {
     const { username, password, code } = action.payload
 
@@ -94,8 +116,8 @@ function* signIn(action) {
       yield call(auth.confirmation, username, code)
     }
     yield call(auth.signIn, username, password)
-    let user = auth.config.getUser()
-    let session = yield call(auth.getSession)
+    user = auth.config.getUser()
+    session = yield call(auth.getSession)
 
     yield put({
       type: actions.AUTH_SET_STATE,
@@ -198,6 +220,7 @@ export default function* sagas() {
   yield takeLatest(actions.AUTH_INIT, init)
   yield takeLatest(actions.AUTH_GET_USER, getUser)
   yield takeLatest(actions.AUTH_SIGN_UP, signUp)
+  yield takeLatest(actions.AUTH_CONFIRMATION, confirmation)
   yield takeLatest(actions.AUTH_SIGN_IN, signIn)
   yield takeLatest(actions.AUTH_SIGN_OUT, signOut)
   yield takeLatest(actions.AUTH_FORGOT_PASSWORD, forgotPassword)

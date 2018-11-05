@@ -1,6 +1,6 @@
 {
-  "name": "aws-cognito-redux-saga",
-  "version": "1.5.10",
+  "name": "aws-cognito-redux-saga-refact",
+  "version": "1.5.22",
   "description": "Redux Saga AWS Cognito Library",
   "main": "./dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dbroadhurst/aws-cognito-redux-saga"
+    "url": "https://github.com/Gethi/aws-cognito-redux-saga"
   },
   "keywords": [
     "aws",
@@ -21,14 +21,11 @@
     "redux",
     "saga"
   ],
-  "author": "David Broadhurst",
+  "author": "David Broadhurst, Antoine Bigard",
   "homepage": "http://cognito.dbroadhurst.net",
   "license": "MIT",
   "dependencies": {
-    "aws-cognito-promises": "^1.0.4",
-    "babel-polyfill": "^6.23.0",
-    "react": "^16.2.0",
-    "redux-saga": "^0.15.6"
+    "aws-cognito-promises-refact": "^1.6.7"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -51,6 +48,8 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
-    "webpack": "^3.4.1"
+    "webpack": "^3.4.1",
+    "redux-saga": "^0.16.0",
+    "babel-polyfill": "^6.23.0"
   }
 }

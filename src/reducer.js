@@ -14,12 +14,23 @@ export const getUser = () => {
   }
 }
 
-export const signUp = (username, password) => {
+export const signUp = (username, email, password) => {
   return {
     type: action.AUTH_SIGN_UP,
     payload: {
       username,
+      email,
       password
+    }
+  }
+}
+
+export const confirmation = (username, code) => {
+  return {
+    type: action.AUTH_CONFIRMATION,
+    payload: {
+      username,
+      code
     }
   }
 }
